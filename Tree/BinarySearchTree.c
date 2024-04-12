@@ -7,6 +7,17 @@ typedef struct BSTnode{
     struct BSTnode* right;
 }BSTnode;
 BSTnode* root=NULL;
+void InsertionINBST(int data);
+void InOrderTraversalBST();
+int main(){
+    InsertionINBST(10);
+    printf("Value inserted successfully\n");
+    InsertionINBST(11);
+    printf("The second value inserted successfully\n");
+    InsertionINBST(9);
+    printf("The third value inserted successfully\n");
+    return 0;
+}
 void InsertionINBST(int data){
     BSTnode* node=(BSTnode*) malloc(sizeof(BSTnode));
 
@@ -42,12 +53,12 @@ void InsertionINBST(int data){
         previous_Node->left=node;
     }
 }
-int main(){
-    InsertionINBST(10);
-    printf("Value inserted successfully");
-    InsertionINBST(11);
-    printf("The second value inserted successfully\n");
-    InsertionINBST(9);
-    printf("The third value inserted successfully\n");
-    return 0;
+void InOrderTraversalBST(){
+    if(root==NULL){
+        return;
+    }
+    BSTnode* temp_node=root;
+    while(temp_node->left!=NULL){
+        temp_node=temp_node->left;
+    }
 }
