@@ -2,9 +2,9 @@
 #include <string.h>
 int main()
 {
-   char* str="Sachin";
-   printf("The length of the string is %d",strlen(str));
-   int* list=[1,2,3,4,5,6];
-   printf("%d ",list);
-    return 0;
+    int array[][2]={{1,2},{3,4}};
+    int array1[2][2]={7,8,9,0};
+    printf("The first element of the 2D array is %d",*array[1]);
+    // int b = 10, array[b];
+    // printf("The array declared successfully\n");
 }
