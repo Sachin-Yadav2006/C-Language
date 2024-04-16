@@ -1,64 +1,194 @@
 #include <stdio.h>
 #include <stdlib.h>
-//creating the structure of the Binary Search Tree Node
-typedef struct BSTnode{
+// creating the structure of the Binary Search Tree Node
+typedef struct BSTnode
+{
     int data;
-    struct BSTnode* left;
-    struct BSTnode* right;
-}BSTnode;
-BSTnode* root=NULL;
+    struct BSTnode *left;
+    struct BSTnode *right;
+} BSTnode;
+
+BSTnode *root = NULL;
 void InsertionINBST(int data);
-void InOrderTraversalBST();
-int main(){
+void InOrderTraversalBST(BSTnode *rootone);
+void PreOrderTraversalBST(BSTnode *rootone);
+void PostOrderTraversalBST(BSTnode *rootone);
+BSTnode *SearchBST(int key);
+int MaxBST(BSTnode *rootone);
+int MinBST(BSTnode *rootone);
+void DeleteBST(int key);
+
+int main()
+{
     InsertionINBST(10);
-    printf("Value inserted successfully\n");
     InsertionINBST(11);
-    printf("The second value inserted successfully\n");
     InsertionINBST(9);
-    printf("The third value inserted successfully\n");
+    InsertionINBST(12);
+    InsertionINBST(199);
+    InsertionINBST(12);
+    InsertionINBST(0);
+    InsertionINBST(1);
+
+    printf("\n\nInorder Traversal \n");
+    InOrderTraversalBST(root);
+
+    printf("\n\nPreorder Traversal\n");
+    PreOrderTraversalBST(root);
+
+    printf("\n\nPostorder Traversal\n");
+    PostOrderTraversalBST(root);
+
+    // searching the 12 in the tree
+    BSTnode *add = SearchBST(12);
+    if (add == NULL)
+    {
+        printf("\nThe value not found in the tree\n\n");
+    }
+    else
+    {
+        printf("\nThe value found at the address %d\n\n", add);
+    }
+
+    printf("The minimum element of tree is %d\n\n", MinBST(root));
+    printf("The maximum element of the tree is %d\n\n", MaxBST(root));
+
     return 0;
 }
-void InsertionINBST(int data){
-    BSTnode* node=(BSTnode*) malloc(sizeof(BSTnode));
 
-    if(node==NULL){
+void InsertionINBST(int data)
+{
+    BSTnode *node = (BSTnode *)malloc(sizeof(BSTnode));
+
+    if (node == NULL)
+    {
         printf("The memory not allocated\n");
         return;
     }
-    node->data=data;
-    node->left=NULL;
-    node->right=NULL;
-    if(root==NULL){
-        root=node;
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    if (root == NULL)
+    {
+        root = node;
         return;
     }
-    BSTnode* temp_root=root,*previous_Node=root;      //Previous node for storing the address of the previous node before the node where the temp_root is pointing as at last it would point to NULL
-    //This loop helps to reach at the appropriate position where the new node is to be added
-    while (temp_root!=NULL)
+    BSTnode *temp_root = root, *previous_Node = root; // Previous node for storing the address of the previous node before the node where the temp_root is pointing as at last it would point to NULL
+    // This loop helps to reach at the appropriate position where the new node is to be added
+    while (temp_root != NULL)
     {
-        printf("Inside the while loop\n");
-        if(data<=temp_root->data){
-            previous_Node=temp_root;
+        if (data <= temp_root->data)
+        {
+            previous_Node = temp_root;
+            temp_root = temp_root->left;
+        }
+        else
+        {
+            previous_Node = temp_root;
+            temp_root = temp_root->right;
+        }
+    }
+    if (previous_Node->data < data)
+    {
+        previous_Node->right = node;
+    }
+    else
+    {
+        previous_Node->left = node;
+    }
+}
+
+void InOrderTraversalBST(BSTnode *rootone)
+{
+    if (rootone == NULL)
+    {
+        return;
+    }
+    InOrderTraversalBST(rootone->left);
+    printf("%d ", rootone->data);
+    InOrderTraversalBST(rootone->right);
+}
+
+void PreOrderTraversalBST(BSTnode *rootone)
+{
+    if (rootone == NULL)
+    {
+        return;
+    }
+    printf("%d ", rootone->data);
+    PreOrderTraversalBST(rootone->left);
+    PreOrderTraversalBST(rootone->right);
+}
+
+void PostOrderTraversalBST(BSTnode *rootone)
+{
+    if (rootone == NULL)
+    {
+        return;
+    }
+    PostOrderTraversalBST(rootone->left);
+    PostOrderTraversalBST(rootone->right);
+    printf("%d ", rootone->data);
+}
+
+BSTnode *SearchBST(int key)
+{
+    BSTnode *temp_root = root;
+    while (temp_root != NULL)
+    {
+        if (temp_root->data == key)
+        {
+            break;
+        }
+        else if (temp_root->data < key)
+        {
+            temp_root = temp_root->right;
+        }
+        else
+        {
+            temp_root = temp_root->left;
+        }
+    }
+    return temp_root;
+}
+
+int MaxBST(BSTnode *rootone)
+{
+    if (rootone == NULL)
+        return -1;
+    while (rootone->right != NULL)
+    {
+        rootone = rootone->right;
+    }
+    return rootone->data;
+}
+
+int MinBST(BSTnode *rootone)
+{
+    if (rootone == NULL)
+        return -1;
+    while (rootone->left != NULL)
+    {
+        rootone = rootone->left;
+    }
+    return rootone->data;
+}
+
+void deleteBST(int key)
+{
+    BSTnode* temp_root=root;
+    
+    while(temp_root->left!=NULL)
+    {
+        if(temp_root->data==key){
+            if(temp_root->right==NULL && temp_root->left==NULL){
+                temp_root
+            }
+        }
+        else if(temp_root->data>key){
             temp_root=temp_root->left;
         }
         else{
-            previous_Node=temp_root;
             temp_root=temp_root->right;
         }
-    }
-    if(previous_Node->data<data){
-        previous_Node->right=node;
-    }
-    else{
-        previous_Node->left=node;
-    }
-}
-void InOrderTraversalBST(){
-    if(root==NULL){
-        return;
-    }
-    BSTnode* temp_node=root;
-    while(temp_node->left!=NULL){
-        temp_node=temp_node->left;
     }
 }
