@@ -17,6 +17,8 @@ BSTnode *SearchBST(int key);
 int MaxBST(BSTnode *rootone);
 int MinBST(BSTnode *rootone);
 void DeleteBST(int key);
+int InorderSuccessor(BSTnode* temp_root,int key,int successor,int flag);
+
 
 int main()
 {
@@ -173,22 +175,65 @@ int MinBST(BSTnode *rootone)
     return rootone->data;
 }
 
-void deleteBST(int key)
+int InorderSuccessor(BSTnode* temp_root,int key,int successor,int flag){
+    if(flag==1) return 0;
+    if(temp_root==NULL){
+        return 0;
+    }
+    InorderSuccessor(temp_root->left,key,successor,flag);
+    if(temp_root->data > key){
+        flag=1;
+        successor=temp_root->data;
+    }
+    InorderSuccessor(temp_root->right,key,successor,flag);
+    return successor;
+}
+
+void DeleteBST(int key)
 {
     BSTnode* temp_root=root;
-    
-    while(temp_root->left!=NULL)
+    BSTnode* prev_node;
+    BSTnode* node; 
+    char direction;
+    while(temp_root!=NULL)
     {
         if(temp_root->data==key){
             if(temp_root->right==NULL && temp_root->left==NULL){
-                temp_root
+                if(direction=='l'){
+                    prev_node->left=NULL;
+                    free(temp_root);
+                }
+                else{
+                    prev_node->right=NULL;
+                    free(temp_root);
+                }
+            }
+            else if(temp_root->right==NULL){
+                temp_root->data=temp_root->left->data;
+                node=temp_root->left;
+                temp_root->left=NULL;
+                free(node);
+            }
+            else if(temp_root->left==NULL){
+                temp_root->data=temp_root->right->data;
+                node=temp_root->right;
+                temp_root->right=NULL;
+                free(node);
+            }
+            else{
+                    
             }
         }
         else if(temp_root->data>key){
+            direction='l';
+            prev_node=temp_root;
             temp_root=temp_root->left;
         }
         else{
+            direction='r';
+            prev_node=temp_root;
             temp_root=temp_root->right;
         }
     }
+    
 }
